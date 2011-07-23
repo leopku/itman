@@ -2,6 +2,39 @@
 from django.db import models
 
 # Create your models here.
+class Location(models.Model):
+    name = models.CharField("名称", max_length=255)
+    address = models.CharField("地址", max_length=255, blank=True, null=True)
+    phone = models.CharField("紧急电话", max_length=29, blank=True, null=True)
+    mobile = models.CharField("手机", max_length=29, blank=True, null=True)
+    
+    def __unicode__(self):
+        return self.name
+
+class Machine(models.Model):
+    Machine_Choices = (
+        ('Se', 'Server'),
+        ('Sw', 'Switch'),
+    )
+    Height_Choices = (
+        ('1U', '1U'),
+        ('2U', '2U'),
+        ('3U', '3U'),
+        ('4U', '4U'),
+        ('5U', '5U'),
+    )
+    name = models.CharField("名称", max_length=255)
+    manufacturer = models.CharField("生产商", max_length=100)
+    height = models.CharField("高度", max_length=2, choices=Height_Choices)
+    mType = models.CharField("型号", max_length=255, )
+    kind = models.CharField("类型", max_length=2, choices=Machine_Choices)
+    disk = models.CharField("硬盘", max_length=100, blank=True, null=True)
+    memory = models.CharField("内存", max_length=20, blank=True, null=True)
+    location = models.ForeignKey(Location, blank=True, null=True)
+    
+    def __unicode__(self):
+        return self.name
+
 class Service(models.Model):
     Service_Choices = (
         ('Po', 'Port'),
@@ -10,22 +43,10 @@ class Service(models.Model):
     )
     name = models.CharField("名称", max_length=255)
     kind = models.CharField("类型", max_length=2, choices=Service_Choices)
-    ip = models.IPAddressField("IP地址", max_length=255, null=True)
+    ip = models.IPAddressField("IP地址", max_length=255, blank=True, null=True)
+    machine = models.ForeignKey(Machine, verbose_name="机器", blank=True, null=True)
     
+    def __unicode__(self):
+        return self.name
 
-class Machine(models.Model):
-    Machine_Choices = (
-        ('Se', 'Server'),
-        ('Sw', 'Switch'),
-    )
-    name = models.CharField("名称", max_length=255)
-    port = models.CommaSeparatedIntegerField("端口", max_length=4)
-    services = models.CommaSeparatedIntegerField("服务", max_length=255, null=True)
-    kind = models.CharField("类型", max_length=2, choices=Machine_Choices)
-    location = models.ForeignKey(Location)
 
-class Location(models.Model):
-    name = models.CharField("名称", max_length=255)
-    address = models.CharField("地址", max_length=255)
-    phone = models.CharField("紧急电话", max_length=29, null=True)
-    mobile = models.CharField("手机", max_length=29, null=True)

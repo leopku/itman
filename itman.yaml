@@ -1,0 +1,9 @@
+uwsgi:
+    socket: 0.0.0.0:9090
+    master: true
+    processes: 4
+    env: DJANGO_SETTINGS_MODULE=itman.settings
+    module: django.core.handlers.wsgi:WSGIHandler()
+    virtualenv: /opt/Documents/Source/ldap_env/
+    daemonize: /opt/Documents/Source/itman/logs/uwsgi.log
+    pidfile: /opt/Documents/Source/itman/logs/uwsgi.pid

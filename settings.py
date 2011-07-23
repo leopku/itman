@@ -1,5 +1,6 @@
 # Django settings for itman project.
-from os import path
+
+import os.path
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -13,7 +14,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'itman.db',                      # Or path to database file if using sqlite3.
+        'NAME': os.path.join(os.path.dirname(__file__),'itman.db'),                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -107,7 +108,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    path.join(path.dirname(__file__), 'templates'),
+    os.path.join(os.path.dirname(__file__), 'templates'),
 )
 
 INSTALLED_APPS = (
@@ -121,6 +122,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'south',
+    'itman.services',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -151,11 +154,11 @@ from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
 
 
 # Baseline configuration.
-AUTH_LDAP_SERVER_URI = "ldap://ldap.example.com"
+AUTH_LDAP_SERVER_URI = "ldap://mail.ihaveu.net"
 
-AUTH_LDAP_BIND_DN = "cn=django-agent,dc=example,dc=com"
-AUTH_LDAP_BIND_PASSWORD = "phlebotinum"
-AUTH_LDAP_USER_SEARCH = LDAPSearch("ou=users,dc=example,dc=com",
+AUTH_LDAP_BIND_DN = "uid=zimbra,cn=admins,cn=zimbra"
+AUTH_LDAP_BIND_PASSWORD = "OKfh_meB"
+AUTH_LDAP_USER_SEARCH = LDAPSearch("ou=people,dc=ihaveu,dc=net",
     ldap.SCOPE_SUBTREE, "(uid=%(user)s)")
 ## or perhaps:
 ## AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,ou=users,dc=example,dc=com"
