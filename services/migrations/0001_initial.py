@@ -18,15 +18,6 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('services', ['Location'])
 
-        # Adding model 'Service'
-        db.create_table('services_service', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('kind', self.gf('django.db.models.fields.CharField')(max_length=2)),
-            ('ip', self.gf('django.db.models.fields.IPAddressField')(max_length=15, null=True, blank=True)),
-        ))
-        db.send_create_signal('services', ['Service'])
-
         # Adding model 'Hardware'
         db.create_table('services_hardware', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -37,14 +28,6 @@ class Migration(SchemaMigration):
             ('location', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['services.Location'], null=True, blank=True)),
         ))
         db.send_create_signal('services', ['Hardware'])
-
-        # Adding M2M table for field port on 'Hardware'
-        db.create_table('services_hardware_port', (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('hardware', models.ForeignKey(orm['services.hardware'], null=False)),
-            ('service', models.ForeignKey(orm['services.service'], null=False))
-        ))
-        db.create_unique('services_hardware_port', ['hardware_id', 'service_id'])
 
         # Adding model 'Server'
         db.create_table('services_server', (
@@ -61,26 +44,34 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('services', ['Switch'])
 
+        # Adding model 'Service'
+        db.create_table('services_service', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('kind', self.gf('django.db.models.fields.CharField')(max_length=2)),
+            ('ip', self.gf('django.db.models.fields.IPAddressField')(max_length=15, null=True, blank=True)),
+            ('switch', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='switch', null=True, to=orm['services.Switch'])),
+            ('server', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='server', null=True, to=orm['services.Server'])),
+        ))
+        db.send_create_signal('services', ['Service'])
+
 
     def backwards(self, orm):
         
         # Deleting model 'Location'
         db.delete_table('services_location')
 
-        # Deleting model 'Service'
-        db.delete_table('services_service')
-
         # Deleting model 'Hardware'
         db.delete_table('services_hardware')
-
-        # Removing M2M table for field port on 'Hardware'
-        db.delete_table('services_hardware_port')
 
         # Deleting model 'Server'
         db.delete_table('services_server')
 
         # Deleting model 'Switch'
         db.delete_table('services_switch')
+
+        # Deleting model 'Service'
+        db.delete_table('services_service')
 
 
     models = {
@@ -91,8 +82,7 @@ class Migration(SchemaMigration):
             'location': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['services.Location']", 'null': 'True', 'blank': 'True'}),
             'manufacturer': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'oType': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'port': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['services.Service']", 'symmetrical': 'False'})
+            'oType': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'})
         },
         'services.location': {
             'Meta': {'object_name': 'Location'},
@@ -114,7 +104,9 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'ip': ('django.db.models.fields.IPAddressField', [], {'max_length': '15', 'null': 'True', 'blank': 'True'}),
             'kind': ('django.db.models.fields.CharField', [], {'max_length': '2'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'server': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'server'", 'null': 'True', 'to': "orm['services.Server']"}),
+            'switch': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'switch'", 'null': 'True', 'to': "orm['services.Switch']"})
         },
         'services.switch': {
             'Meta': {'object_name': 'Switch', '_ormbases': ['services.Hardware']},
