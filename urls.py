@@ -3,7 +3,7 @@ from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import login_required
 from django.contrib import databrowse
 
-from itman.services.models import Server, Switch, Service
+from itman.services.models import Server, Switch, Service, Location
 from itman.services.views import server_list, server_detail
 
 # Uncomment the next two lines to enable the admin:
@@ -13,6 +13,7 @@ admin.autodiscover()
 databrowse.site.register(Server)
 databrowse.site.register(Switch)
 databrowse.site.register(Service)
+databrowse.site.register(Location)
 
 urlpatterns = patterns('',
     # Examples:
