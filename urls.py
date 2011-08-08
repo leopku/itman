@@ -26,6 +26,7 @@ urlpatterns = patterns('',
     url(r'^admin_tools/', include('admin_tools.urls')),
     url(r'^accounts/login/$',  'django.contrib.auth.views.login'),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page':'/'}),
+    url(r'^accounts/profile/$', 'django.views.generic.simple.redirect_to', {'url':'/',}),
     
     url(r'^comments/', include('django.contrib.comments.urls')),
 
