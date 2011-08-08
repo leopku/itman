@@ -3,27 +3,35 @@
 {% load url from future %}
 
 {% block extrahead %}
-
+<style type="text/css">
+.modelgroup{ color: #999999; font-size: 0.9em; margin: 0 20px;}
+</style>
 {% endblock %}
 {% block breadcrumbs %}<div class="breadcrumbs"><a href="../">{% trans 'Home' %}</a></div>{% endblock %}
 
 {% block content %}
 
-	{% if form.errors %}
-		<p class="error">Sorry, that's not a valid username or password</p>
-	{% endif %}
+	{% if user.is_authenticated %}
+	    <div class="modelgroup row1"><h2><a href="/db/">查看</a></h2></div>
+	    <div class="modelgroup row2"><h2><a href="/accounts/logout/">注销</a></h2></div>
+        {% if user.is_superuser %}
+	    <div class="modelgroup row1"><h2><a href="/admin/">管理</a></h2></div>
+        {% endif %}
+	{% else %}
+	    {% if form.errors %}
+		    <p class="error">Sorry, that's not a valid username or password</p>
+	    {% endif %}
+        <form method='post' action="{% url 'django.contrib.auth.views.login' %}">
+        {% csrf_token %}
+            <p><label for="username">User name:</label>
+            <input type="text" name="username" value="" id="username"> 提示：公司邮箱@前的部分</p>
+            <p><label for="password">Password:</label>
+            <input type="password" name="password" value="" id="password"> 提示：公司邮箱密码</p>
 
-    <form method='post' action="{% url 'django.contrib.auth.views.login' %}">
-    {% csrf_token %}
-        <label for="username">User name:</label>
-        <input type="text" name="username" value="" id="username">
-        <label for="password">Password:</label>
-        <input type="password" name="password" value="" id="password">
-
-        <input type="submit" value="login" />
-        <!--<input type="hidden" name="next" value="{{ next|escape }}" />-->
-        <input type="hidden" name="next" value="/" />
-    </form>
+            <p><input type="submit" value="login" />
+            <input type="hidden" name="next" value="{{ next|escape }}" />
+        </form>
+    {% endif %}
 	
 {% endblock %}
 
@@ -32,7 +40,7 @@
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 
 <script type="text/javascript">
-    google.load("jquery","1.5.1");
+    /*google.load("jquery","1.5.1");
     google.setOnLoadCallback(
         function(){
             $(document).ready(function(){
@@ -40,6 +48,6 @@
                     $("div#footer").toggle();
                 });
             })
-    });
+    });*/
 </script>
 {% endblock %}

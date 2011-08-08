@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Location(models.Model):
@@ -32,7 +33,7 @@ class Server(Hardware):
     memory = models.SmallIntegerField('内存', blank=True, null=True)
     disk = models.CharField('硬盘', max_length=255, blank=True, null=True)
     is_vm = models.BooleanField('虚拟机', default=False)
-
+    
 class Switch(Hardware):
     pass
 
@@ -54,3 +55,12 @@ class Service(models.Model):
         else:
             return self.name
 
+# class Comment(models.Model):
+#     title = models.CharField(max_length=255)
+#     comment = models.TextField()
+#     switch = models.ForeignKey(Switch, related_name="switch", blank=True, null=True)
+#     server = models.ForeignKey(Server, related_name="server", blank=True, null=True)
+#     service = models.ForeignKey(Service, blank=True, null=True)
+#     author = models.ForeignKey(User, blank=True, null=True,)
+# 
+#     def __unicode__(self):
