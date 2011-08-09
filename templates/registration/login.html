@@ -14,7 +14,7 @@
 	{% if user.is_authenticated %}
 	    <div class="modelgroup row1"><h2><a href="/db/">查看</a></h2></div>
 	    <div class="modelgroup row2"><h2><a href="/accounts/logout/">注销</a></h2></div>
-        {% if user.is_superuser %}
+        {% if user.is_staff %}
 	    <div class="modelgroup row1"><h2><a href="/admin/">管理</a></h2></div>
         {% endif %}
 	{% else %}
