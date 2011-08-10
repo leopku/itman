@@ -9,7 +9,8 @@
       {% if field.errors %}{{ field.errors }}{% endif %}
       <p
         {% if field.errors %} class="error"{% endif %}
-        {% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}>
+        {% ifnotequal field.name "comment" %} style="display:none;"{% endifnotequal %}>
+        
         {{ field.label_tag }} {{ field }}
       </p>
     {% endif %}
@@ -24,9 +25,9 @@
 <script type="text/javascript">
 $(document).ready(function(){
     $('#id_comment').xheditor({tools:'Source,|,Cut,Copy,Paste,Pastetext,|,Blocktag,Fontface,FontSize,Bold,Italic,Underline,Strikethrough,FontColor,BackColor,|,SelectAll,Removeformat,|,Align,List,Outdent,Indent,|,Link,Unlink,Anchor,Hr,Table,Preview',skin:'nostyle',width:'100%'});
-    $("label").css("display","none");
+    /*$("label").css("display","none");
     $("#id_name").css("display","none");
     $("#id_email").css("display","none");
-    $("#id_url").css("display","none");
+    $("#id_url").css("display","none");*/
 });
 </script>
