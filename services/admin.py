@@ -38,8 +38,8 @@ class SwitchInline(admin.TabularInline):
     model = Switch
 
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'kind', 'switch', )
-    list_filter = ('kind', 'switch', 'server',)
+    list_display = ('name', 'port_number', 'domain', )
+    #list_filter = ('kind', 'switch', 'server',)
 
 class HardwareAdmin(admin.ModelAdmin):
     list_display = ('name', 'location', 'manufacturer', 'height', 'oType')
