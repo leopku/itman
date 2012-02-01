@@ -172,9 +172,9 @@ LOGGING = {
     }
 }
 
-
 # If there is one, load the local overrides file.
 try:
     from local_settings import *
 except ImportError:
     pass
+
