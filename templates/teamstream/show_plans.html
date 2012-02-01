@@ -1,0 +1,69 @@
+<div class="filter-controls">
+	<a {% ifequal filter "my" %}class="selected"{% endifequal%} href="#" id="id_my_plans" onclick="return load_plans('{% url ajax_show_plans %}?filter=my');">[My]</a>
+	<a {% ifequal filter "all" %}class="selected"{% endifequal%}href="#" id="id_all_plans" onclick="return load_plans('{% url ajax_show_plans %}?filter=all');">[All]</a>
+	<span id="id_loading_plans" style="display: none;">Loading...</span>
+</div>
+
+{% if future_plans or today_plans or past_plans or general_plans or delayed_plans %}
+
+	{% regroup future_plans by date as plans_by_date %}
+	
+	<div class="module">
+	<table border="1" cellspacing="0" width="100%">
+		<caption><span class="section">Plan</span></caption>
+		
+		{% if past_plans %}
+			<thead><tr><th colspan="4"><h3>Past plans (manage them)</h3></th></tr></thead>
+			
+			{% include "teamstream/show_plans_header.html"%}
+						
+			{% for plan in past_plans %}
+				{% include "teamstream/show_plan_item.html" %}
+	        {% endfor %}
+		{% endif %}
+		
+		{% if today_plans %}
+			<thead><tr><th colspan="4"><h3>{{ now|date:"d b" }}&nbsp;&mdash;&nbsp;Today</h3></th></tr></thead>
+			
+			{% include "teamstream/show_plans_header.html"%}
+			
+			{% for plan in today_plans %}
+				{% include "teamstream/show_plan_item.html" %}
+	        {% endfor %}
+		{% endif %}
+		
+		{% if general_plans %}
+			<thead><tr><th colspan="4"><h3>TODO</h3></th></tr></thead>
+			
+			{% include "teamstream/show_plans_header.html"%}
+			
+			{% for plan in general_plans %}
+				{% include "teamstream/show_plan_item.html" %}
+	        {% endfor %}
+		{% endif %}
+		
+		{% if delayed_plans %}
+			<thead><tr><th colspan="4"><h3>Old TODOs (refresh them)</h3></th></tr></thead>
+			
+			{% include "teamstream/show_plans_header.html"%}
+			
+			{% for plan in delayed_plans %}
+				{% include "teamstream/show_plan_item.html" %}
+	        {% endfor %}
+		{% endif %}
+		
+		{% for adate in plans_by_date %}
+			<thead><tr><th colspan="4"><h3>{{ adate.grouper|date:"d b, D" }}</h3></th></tr></thead>
+			
+			{% include "teamstream/show_plans_header.html"%}
+			
+			{% for plan in adate.list %}
+				{% include "teamstream/show_plan_item.html" %}
+	        {% endfor %}
+		{% endfor %}
+		
+	</table>
+	</div>
+{% else %}
+	No plans.
+{% endif %}

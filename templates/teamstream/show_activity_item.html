@@ -1,0 +1,48 @@
+{% load admin_edit %}
+{% load trac_tags %}
+
+			<tr class="{#row{% cycle 1,2%}#} {% ifnotequal activity.user request.user %}row2 not-my{% else %}row1{% endifnotequal %}">
+				<td>
+					{% ifequal activity.user request.user %}
+						<strong>{{ activity.user.username }}</strong>
+					{% else %}
+						{{ activity.user.username }}
+					{% endifequal %}
+				</td>
+				<td>{{ activity.work.project.name }}</td>
+				<td>
+					<div>
+						<div style="float: right;">
+							{% ifequal activity.user request.user %}
+								{% if not activity.end %}
+									<a class="confirm-button" title="delete this activity period" href="{% url delete_period activity.pk %}">[x]</a>
+								{% endif %}
+								{% admin_edit activity.work %}
+							{% endifequal %}
+							<a href="{% url resume_work activity.work.pk %}">[start]</a>
+						</div>
+					
+						{% ifequal activity.user request.user %}
+							<strong>{{ activity.work.title|trac_parse:activity.work.project.trac_url|safe|urlizetrunc:70 }}</strong>
+						{% else %}
+							<span>{{ activity.work.title|trac_parse:activity.work.project.trac_url|safe|urlizetrunc:70 }}</span>
+						{% endifequal %}
+						
+					</div>
+				</td>
+				<td>{% ifequal activity.hours|floatformat:-2 activity.work.hours|floatformat:-2 %}{{ activity.hours|floatformat:-2 }}{% else %}{{ activity.hours|floatformat:-2 }}&nbsp;/&nbsp;{{ activity.work.hours|floatformat:-2 }}{% endifequal %}</td>
+				<td>{{ activity.start|time }}</td>
+				<td>
+					{% if activity.end %}
+						{{ activity.end|time }}
+					{% else %}
+						<strong>
+							{% ifequal activity.user request.user %}
+								<a href="{% url close_active_period %}">[stop]</a>
+							{% else %}
+								opened
+							{% endifequal %}						
+						</strong>
+					{% endif %}
+				</td>
+			</tr>

@@ -1,0 +1,87 @@
+{% extends "base_site.html" %}
+
+{% load adminmedia %}
+
+{% block extrahead %}
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
+<script type="text/javascript" src="{% admin_media_prefix %}js/core.js"></script>
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+{{ form.media }}
+
+<script type="text/javascript">
+	$(document).ready(function(){
+	
+		
+	});
+	
+	function delete_plan(id) {
+		if (confirm("Are you sure to delete this plan?")) {
+			$("#id_loading_plans").show();
+			$.post("{% url ajax_delete_plan %}", {"id": id}, function(data) {
+				if (data == "ok") {
+					load_plans("{% url ajax_show_plans %}");
+				} else {
+					alert("Server error.");
+				}
+			});
+		}
+		return false;
+	}
+	
+	function delay_plan(id, days) {
+		$("#id_loading_plans").show();
+		$.post("{% url ajax_delay_plan %}", {"id": id, "days": days}, function(data) {
+			if (data == "ok") {
+				load_plans("{% url ajax_show_plans %}");
+			} else {
+				alert("Server error.");
+			}
+		});
+		return false;
+	}
+	
+	function load_plans(url) {
+		$("#id_loading_plans").show();
+		$.get(url, function(data) {
+			$("#id_plans_container").html(data);
+		});
+		return false
+	}
+</script>
+{% endblock %}
+
+{% block content %}
+
+<table>
+<tr>
+	<td width="60%">
+		<h1>Add activity</h1>
+
+		<form action="." method="post">
+		<table class="no-border">
+			{{ form }}
+		</table>
+		<input type="submit" value="Add" />
+		</form>
+	</td>
+	<td width="40%">
+		<h1>Add plan</h1>
+		
+		<form action="." method="post">
+		<table class="no-border">
+			{{ plan_form }}
+		</table>
+		<input type="submit" value="Add" />
+		</form>
+	</td>
+</tr>
+<tr>
+	<td>
+		{% include "teamstream/show_activities.html" %}
+	</td>
+	<td id="id_plans_container">
+		{% include "teamstream/show_plans.html" %}
+	</td>
+</tr>
+</table>
+{% endblock %}

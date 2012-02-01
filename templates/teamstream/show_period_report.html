@@ -1,0 +1,39 @@
+<table border="1" cellspacing="0" class="module">
+	<caption><span class="section">Summary on {{ start|date }}{% ifnotequal start.date end.date %} - {{ end|date }}{% endifnotequal %}</span></caption>
+	<thead>
+	<tr>
+		<th>&nbsp;</th>
+		
+		{% for project in projects_summary %}
+			<th>{{ project.name }}</th>
+		{% endfor %}
+		
+		<th>Total</th>		
+	</tr>
+	</thead>
+	
+	{% for user in users_summary %}
+		<tr class="row{% cycle 1,2%}">
+			<td>{{ user.username }}</td>
+			
+			{% for project in user.projects_summary %}
+				<td>{% if project %}{{ project.hours|floatformat:-2 }}{% else %}&nbsp;{% endif %}</td>
+			{% endfor %}
+			
+			<td style="font-size:11px; color:#666666; font-weight:bold;">{{ user.hours|floatformat:-2 }}</td>
+		</tr>
+	{% endfor %}
+	
+	<thead>
+	<tr>
+		<th>Total</th>
+		
+		{% for project in projects_summary %}
+			<th>{{ project.hours|floatformat:-2 }}</th>
+		{% endfor %}
+		
+		<th>{{ total_hours|floatformat:-2 }}</th>
+	</tr>
+	</thead>
+		
+</table>
