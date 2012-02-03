@@ -14,7 +14,7 @@ class Location(models.Model):
     
     def __unicode__(self):
         return self.name
-
+'''
 class BaseEquipment(PolymorphicModel):
     Height_Choices = (
         ('1', '1U'),
@@ -30,6 +30,7 @@ class BaseEquipment(PolymorphicModel):
 
     def __unicode__(self):
         return self.name
+'''
 
 class Hardware(models.Model):
     Height_Choices = (
@@ -47,13 +48,13 @@ class Hardware(models.Model):
     def __unicode__(self):
         return self.name
 
-class Server(BaseEquipment):
+class Server(Hardware):
     cpu_type = models.CharField('CPU型号', max_length=50, blank=True, null=True)
     memory = models.SmallIntegerField('内存', blank=True, null=True)
     disk = models.CharField('硬盘', max_length=255, blank=True, null=True)
     is_vm = models.BooleanField('虚拟机', default=False)
         
-class Switch(BaseEquipment):
+class Switch(Hardware):
     pass
     
 class Port(models.Model):

@@ -6,6 +6,13 @@
 <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
 <script type="text/javascript" src="{% admin_media_prefix %}js/core.js"></script>
 <script type="text/javascript" src="/admin/jsi18n/"></script>
+
+<style type="text/css">
+    .vDateField, .vTimeField {
+        width: 80px;
+    }
+</style>
+
 {{ form.media }}
 
 <script type="text/javascript">
@@ -49,39 +56,58 @@
 	}
 </script>
 {% endblock %}
-
+{% block content_title %}
+    <h1>Time Tracking</h1>
+{% endblock %}
 {% block content %}
-
-<table>
-<tr>
-	<td width="60%">
-		<h1>Add activity</h1>
-
-		<form action="." method="post">
-		<table class="no-border">
-			{{ form }}
-		</table>
-		<input type="submit" value="Add" />
-		</form>
-	</td>
-	<td width="40%">
-		<h1>Add plan</h1>
-		
-		<form action="." method="post">
-		<table class="no-border">
-			{{ plan_form }}
-		</table>
-		<input type="submit" value="Add" />
-		</form>
-	</td>
-</tr>
-<tr>
-	<td>
+<div class="row">
+<div class="span6 offset1">
+    <table class="zebra-striped"><tr><td>
+    <form>
+    {% csrf_token %}
+		<fieldset>
+			<legend>Add activity</legend>
+			{% for field in form %}
+			<div class="clearfix">
+			    {{ field.label_tag }}
+			    <div class="input">
+			        {{ field }}
+			    </div>
+			</div>
+			{% endfor %}
+			<div class="actions">
+			    <input class="btn" type="submit" value="Add" />
+			</div>			
+		</fieldset>
+	</form>
+	</td></tr></table>
+</div>
+<div class="span6 offset1">
+	<table class="zebra-striped"><tr><td>
+   <form>
+   {% csrf_token %}
+	<fieldset>
+		<legend>Add plan</legend>
+		{% for field in plan_form %}
+		<div class="clearfix">
+		    {{ field.label_tag }}
+		    <div class="input">
+		        {{ field }}
+		    </div>
+		</div>
+		{% endfor %}
+		<div class="actions">
+		    <input class="btn" type="submit" value="Add" />
+		</div>	
+	</fieldset>
+	</form>
+	</td></tr></table>
+</div>
+</div>
+<div class="row">
 		{% include "teamstream/show_activities.html" %}
-	</td>
-	<td id="id_plans_container">
+<!-- </div>
+<div class="row"> -->
 		{% include "teamstream/show_plans.html" %}
-	</td>
-</tr>
-</table>
+</div>
 {% endblock %}

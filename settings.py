@@ -174,7 +174,7 @@ LOGGING = {
 
 # If there is one, load the local overrides file.
 try:
-    from local_settings import *
+    from settings_local import *
 except ImportError:
     pass
 

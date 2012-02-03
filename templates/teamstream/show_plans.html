@@ -1,16 +1,16 @@
-<div class="filter-controls">
+<div class="span6 offset1">
 	<a {% ifequal filter "my" %}class="selected"{% endifequal%} href="#" id="id_my_plans" onclick="return load_plans('{% url ajax_show_plans %}?filter=my');">[My]</a>
 	<a {% ifequal filter "all" %}class="selected"{% endifequal%}href="#" id="id_all_plans" onclick="return load_plans('{% url ajax_show_plans %}?filter=all');">[All]</a>
 	<span id="id_loading_plans" style="display: none;">Loading...</span>
-</div>
+
 
 {% if future_plans or today_plans or past_plans or general_plans or delayed_plans %}
 
 	{% regroup future_plans by date as plans_by_date %}
 	
-	<div class="module">
-	<table border="1" cellspacing="0" width="100%">
-		<caption><span class="section">Plan</span></caption>
+	<div class="clearfix span12 offset1">
+	<table>
+		<h3>Plan</h3>
 		
 		{% if past_plans %}
 			<thead><tr><th colspan="4"><h3>Past plans (manage them)</h3></th></tr></thead>
@@ -65,5 +65,9 @@
 	</table>
 	</div>
 {% else %}
-	No plans.
+
+<div class="alert-message warning">
+	<p><strong>No plan</strong></p>
+</div>
+</div>
 {% endif %}

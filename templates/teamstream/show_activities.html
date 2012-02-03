@@ -6,9 +6,9 @@
 	<div class="filter-controls">
 		&nbsp;
 	</div>
-	<div class="module">
-	<table border="1" cellspacing="0" width="100%">
-		<caption><span class="section">Activities</span></caption>
+	<div class="clearfix span12 offset1">
+	<table class="zebra-striped">
+		<span><h3>Activities</h3></span>
 		
 		{% if current_activities %}
 		
@@ -40,5 +40,9 @@
 	</table>
 	</div>
 {% else %}
-	No activities.
+	<div class="span6 offset1">
+	<div class="alert-message warning">
+		<p><strong>No activity</strong></p>
+	</div>
+	</div>
 {% endif %}
