@@ -1,3 +1,5 @@
 *~
 *.db
 *.pyc
+*.svn
+settings_local.py

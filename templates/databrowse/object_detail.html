@@ -1,7 +1,7 @@
-{% extends "databrowse/base_site.html" %}
+{% extends "base_site.html" %}
 {% load comments %}
 
-{% block title %}{{ object.model.verbose_name|capfirst }}: {{ object }}{% endblock %}
+{% block content_title %}{{ object.model.verbose_name|capfirst }}: {{ object }}{% endblock %}
 
 {% block content %}
 

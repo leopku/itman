@@ -1,0 +1,6 @@
+{% load trac_tags %}
+
+<tr class="row{% cycle 1,2%}">
+	<td>{{ work.title|trac_parse:work.project.trac_url|safe|urlizetrunc:70 }}</td>
+	<td>{{ work.hours|floatformat:-2 }}</td>
+</tr>

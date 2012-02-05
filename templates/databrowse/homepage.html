@@ -1,0 +1,28 @@
+{% extends "base_site.html" %}
+
+{% block content_title %}<h1>Databrowse</h1>{% endblock %}
+
+{% block bodyid %}homepage{% endblock %}
+
+{% block content %}
+<div class="offset1">
+<table class="zebra-striped">
+    <tbody>
+{% for model in model_list %}
+
+        <tr>
+            <td><a href="{{ model.url }}">{{ model.verbose_name_plural|capfirst }}</a></td>
+            <td>
+            {% for object in model.sample_objects %}
+                <a href="{{ object.url }}">{{ object }}</a>,
+            {% endfor %}
+                <a class="more" href="{{ model.url }}">More &rarr;</a>
+            </td>
+        </tr>
+
+{% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% endblock %}

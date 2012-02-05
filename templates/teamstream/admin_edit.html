@@ -1,0 +1,9 @@
+{% spaceless %}
+
+{% load i18n %}
+
+{% if permitted %}
+	<a href="{{ edit_url }}" title="Edit object in admin">[e]</a>
+{% endif %}
+
+{% endspaceless %}

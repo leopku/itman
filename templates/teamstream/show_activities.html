@@ -1,0 +1,48 @@
+{% load report_tags %}
+
+{% if activities or current_activities %}
+
+	{% regroup activities by start.date as activites_by_date %}
+	<div class="filter-controls">
+		&nbsp;
+	</div>
+	<div class="clearfix span12 offset1">
+	<table class="zebra-striped">
+		<span><h3>Activities</h3></span>
+		
+		{% if current_activities %}
+		
+			<thead><tr><th colspan="6"><h3>Current</h3></th></tr></thead>
+			
+			{% include "teamstream/show_activites_header.html" %}
+			
+			{% for activity in current_activities %}
+				{% include "teamstream/show_activity_item.html" %}
+	        {% endfor %}
+	        
+	    {% endif %}
+		
+		
+		{% for adate in activites_by_date %}
+			<thead><tr><th colspan="6"><h3>{{ adate.grouper|date:"d b, D" }}{% ifequal adate.grouper now.date %}&nbsp;&mdash;&nbsp;Today{% endifequal %}</h3></th></tr></thead>
+			
+			{% include "teamstream/show_activites_header.html" %}
+			
+			{% for activity in adate.list %}
+				{% include "teamstream/show_activity_item.html" %}
+	        {% endfor %}
+	        
+	        <tr><td colspan="6">
+	        {% show_day_summary adate.grouper %}
+	        </td></tr>
+		{% endfor %}
+		
+	</table>
+	</div>
+{% else %}
+	<div class="span6 offset1">
+	<div class="alert-message warning">
+		<p><strong>No activity</strong></p>
+	</div>
+	</div>
+{% endif %}

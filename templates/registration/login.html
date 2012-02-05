@@ -2,40 +2,37 @@
 {% load i18n %}
 {% load url from future %}
 
-{% block extrahead %}
-<style type="text/css">
-.modelgroup{ color: #999999; font-size: 0.9em; margin: 0 20px;}
-</style>
-{% endblock %}
-{% block breadcrumbs %}<div class="breadcrumbs"><a href="../">{% trans 'Home' %}</a></div>{% endblock %}
-
-{% block content %}
 
 	{% if user.is_authenticated %}
-	    <div class="modelgroup row1"><h2><a href="/db/">查看</a></h2></div>
-	    <div class="modelgroup row2"><h2><a href="/accounts/logout/">注销</a></h2></div>
-        {% if user.is_staff %}
-	    <div class="modelgroup row1"><h2><a href="/admin/">管理</a></h2></div>
-        {% endif %}
+        {% block content_title1 %}
+        <h1>欢迎登陆<small>IT Managment</small></h1>
+        {% endblock %} 
 	{% else %}
+        {% block content_title %}
+            <h1>登陆<small>后观看信息</small></h1>
+        {% endblock %}
+        {% block content %}
+        <div class="clearfix span12 offset1">
 	    {% if form.errors %}
+            <div class="alert-message warning span10 offset2">
+            <a href="#" class="close"> x </a>
 		    <p class="error">Sorry, that's not a valid username or password</p>
+            </div>
 	    {% endif %}
         <form method='post' action="{% url 'django.contrib.auth.views.login' %}">
         {% csrf_token %}
-            <p><label for="username">User name:</label>
+            <p><label for="username">User name: </label>
             <input type="text" name="username" value="" id="username"> 提示：公司邮箱@前的部分</p>
-            <p><label for="password">Password:</label>
+            <p><label for="password">Password: </label>
             <input type="password" name="password" value="" id="password"> 提示：公司邮箱密码</p>
 
             <p><input type="submit" value="login" />
-            <input type="hidden" name="next" value="{{ next|escape }}" />
+            <input type="hidden" name="next" value="{{ next|escape }}" /></p>
         </form>
+        </div>
+        {% endblock %}
     {% endif %}
 	
-{% endblock %}
-
-{% block footer %}<div id="footer"><hr/>Copyright IHaveU.com 2011.</div>{% endblock %}
 {% block extrafooter %}
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 

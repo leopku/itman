@@ -11,6 +11,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+# define moved to settings_local.py
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
@@ -145,6 +146,7 @@ INSTALLED_APPS = (
     'django.contrib.databrowse',
     'south',
     'itman.services',
+    'itman.teamstream',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -170,7 +172,9 @@ LOGGING = {
     }
 }
 
+# If there is one, load the local overrides file.
 try:
     from settings_local import *
 except ImportError:
     pass
+

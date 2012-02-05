@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% load adminmedia %}
+{% load report_tags %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
+<script type="text/javascript" src="{% admin_media_prefix %}js/core.js"></script>
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+{{ form.media }}
+{% endblock %}
+
+{% block body %}
+
+<table width="800px">
+<tr>
+	<td>
+		<form action="." method="GET">
+		<table>
+			{{ form }}
+		</table>
+		<input type="submit" value="Show" />
+		</form>
+	</td>
+</tr>
+<tr>
+	<td>
+		{% if projects %}
+				
+				{% show_period_summary start end projects %}
+				
+				{% for project in projects %}
+				<div class="module">
+				<table border="1" cellspacing="0" width="100%">
+					<caption><span class="section">Summary report on {{ start|date }}{% ifnotequal start.date end.date %} - {{ end|date }}{% endifnotequal %}</span></caption>
+				
+					<thead><tr><th colspan="2"><h3>{{ project.name }}</h2></th></tr></thead>
+					
+					{% include "teamstream/show_report_header.html"%}
+					
+					{% for work in project.works %}
+						{% include "teamstream/show_report_item.html"%}
+					{% endfor %}
+					
+					<thead>
+					<tr>
+						<th style="text-align: right;">Total:</th>
+						<th>{{ project.hours|floatformat:-2 }}</th>
+					</tr>
+					</thead>
+					
+					<tr><td colspan="2">
+					<div class="module">
+					<table border="1" cellspacing="0" width="100%">
+						<caption><span class="section">Report by users</span></caption>
+						{% for user in project.users %}
+							<thead><tr><th colspan="2"><h3>{{ user.get_full_name|default:user.username }}</h2></th></tr></thead>
+							{% include "teamstream/show_report_header.html"%}
+							{% for work in user.works %}
+								{% include "teamstream/show_report_item.html"%}
+							{% endfor %}
+							<thead>
+							<tr>
+								<th style="text-align: right;">Total:</th>
+								<th>{{ user.hours|floatformat:-2 }}</th>
+							</tr>
+							</thead> 
+						{% endfor %}
+					</table>
+					</div>
+					</td></tr>					
+			
+				</table>
+				</div> <br /><br /><br />
+				{% endfor %}
+				
+		{% else %}
+			Nothing to report.
+		{% endif %}	
+	</td>
+</tr>
+
+{% endblock %}

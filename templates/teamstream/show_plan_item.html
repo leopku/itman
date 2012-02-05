@@ -1,0 +1,33 @@
+{% load admin_edit %}
+{% load trac_tags %}
+
+			<tr class="{#row{% cycle 1,2%}#} {% ifnotequal plan.user request.user %}row2 not-my{% else %}row1{% endifnotequal %}">
+				<td>
+					{% ifequal plan.user request.user %}
+						<strong>{{ plan.user.username }}</strong>
+					{% else %}
+						{{ plan.user.username }}
+					{% endifequal %}
+				</td>
+				<td>{{ plan.project.name }}</td>
+				<td>
+					<div>
+						<div style="float: right; text-align: right;">
+							{% ifequal plan.user request.user %}
+								{% if plan.is_delayed_todo %}
+									<a href="#" onclick="return delay_plan({{ plan.id }}, 0);" title="Make TODO fresh">[refresh!]</a>								
+								{% else %}
+									{% if plan.is_future_plan %}<a href="#" onclick="return delay_plan({{ plan.id }}, -1);" title="Bring plan on 1 day">[<]</a>{% endif %}
+									<a href="#" onclick="return delay_plan({{ plan.id }}, 1);" title="Delay plan on 1 day">[>]</a>
+									<a href="#" onclick="return delay_plan({{ plan.id }}, 2);" title="Delay plan on 2 days">[>>]</a>
+								{% endif %}
+								<a href="#" onclick="return delete_plan({{ plan.id }});" title="delete plan">[x]</a>
+								{% admin_edit plan %}
+							{% endifequal %}
+							<a href="{% url resume_plan plan.pk %}">[start]</a>
+						</div>
+						<strong>{{ plan.title|trac_parse:plan.project.trac_url|safe|urlizetrunc:70 }}</strong>
+					</div>
+				</td>
+				
+			</tr>

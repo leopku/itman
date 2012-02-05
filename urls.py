@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^db/(.*)', login_required(databrowse.site.root)),
     url(r'^server/$', server_list),
     url(r'^server/(?P<server_id>\d+)/$', server_detail),
+    url(r'^ticket/', include('itman.teamstream.urls')),
 
     url(r'^admin_tools/', include('admin_tools.urls')),
     url(r'^accounts/login/$',  'django.contrib.auth.views.login'),
