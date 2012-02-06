@@ -4,6 +4,16 @@
     {{ model.verbose_name_plural|capfirst }}
 {% endblock %}
 
+{% block extrahead %}
+<style type="text/css">
+.info > .filter > a {
+    background-color: #62CFFC;
+    border-radius: 3px 3px 3px 3px;
+    color: #FFFFFF;
+}
+</style>
+{% endblock %}
+
 {% block content_title %}<h1>{{ model.verbose_name_plural|capfirst }}</h1>{% endblock %}
 
 {% block content %}
@@ -15,16 +25,17 @@
             <li>{% if model.objects.count|pluralize %}{{ model.verbose_name_plural }}{% else %}{{ model.verbose_name }}{% endif %} (Total: <span class="label success">{{ model.objects.count }}</span>)</li>
         </ul>
 </div>
-
 <div class="row">
-    <pre>
+    <div class="alert-message block-message success">
         {{ plugin_html }}
-    </pre>
-    <table class="zebra-striped">
-        {% for object in model.objects %}
-        {% cycle '<tr><td>' '<td>' %}<a href="{{ object.url }}">{{ object }}</a>{% cycle '</td>' '</td></tr>' %}
-        {% endfor %}
-    </table>
+    </div>
+{% for object in model.objects %}
+
+    <span class="alert-message block-message {% cycle '' 'info' %} span6">
+        <a href="{{ object.url }}">{{ object }}</a>
+    </span>
+
+{% endfor %}
 </div>
 
 {% endblock %}

@@ -1,39 +1,39 @@
 {% extends "base_site.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Preview your comment" %}{% endblock %}
+{% block content_title %}<h1>{% trans "Preview your comment" %}</h1>{% endblock %}
 
 {% block content %}
+<div class="row">
   {% load comments %}
   <form action="{% comment_form_target %}" method="post">{% csrf_token %}
     {% if next %}<div><input type="hidden" name="next" value="{{ next }}" /></div>{% endif %}
     {% if form.errors %}
-    <h1>{% blocktrans count form.errors|length as counter %}Please correct the error below{% plural %}Please correct the errors below{% endblocktrans %}</h1>
+    <strong>{% blocktrans count form.errors|length as counter %}Please correct the error below{% plural %}Please correct the errors below{% endblocktrans %}</strong>
     {% else %}
-    <h1>{% trans "Preview your comment" %}</h1>
-      <blockquote>{{ comment|linebreaks }}</blockquote>
-      <p>
-      {% trans "and" %} <input type="submit" name="submit" class="submit-post" value="{% trans "Post your comment" %}" id="submit" /> {% trans "or make changes" %}:
-      </p>
+    <p><strong>{% trans "Preview your comment" %}</strong></p>
+      <blockquote><p>{{ comment|linebreaks }}</p></blockquote>
     {% endif %}
     {% for field in form %}
       {% if field.is_hidden %}
         <div>{{ field }}</div>
       {% else %}
-        {% if field.errors %}{{ field.errors }}{% endif %}
+        {% if field.errors %}<div class="alert-message error"><p><strong>{{ field.errors }}</strong></p></div>{% endif %}
+        
         <p
           {% if field.errors %} class="error"{% endif %}
           {% ifnotequal field.name "comment" %} style="display:none;"{% endifnotequal %}>
-          {{ field.label_tag }} {{ field }}
-        </p>
+          {{ field }}
+        </p> 
+        
       {% endif %}
     {% endfor %}
     <p class="submit">
-    <input type="submit" name="submit" class="submit-post" value="{% trans "Post" %}" />
-    <input type="submit" name="preview" class="submit-preview" value="{% trans "Preview" %}" />
+    <input type="submit" name="submit" class="btn primary" value="{% trans "Post" %}" />
+    <input type="submit" name="preview" class="btn" value="{% trans "Preview" %}" />
     </p>
   </form>
-  
+</div>  
 <script type="text/javascript" src="/static/xheditor/jquery/jquery-1.4.2.min.js"></script>
 <script type="text/javascript" src="/static/xheditor/xheditor-1.1.8-zh-cn.min.js"></script>
 <script type="text/javascript">

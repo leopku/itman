@@ -1,17 +1,29 @@
 {% extends "databrowse/base_site.html" %}
 
-{% block title %}{{ model.verbose_name_plural|capfirst }} by {{ field.field.verbose_name }}{% endblock %}
+{% block content_title %}<h1>{{ model.verbose_name_plural|capfirst }} by {{ field.field.verbose_name }}</h1>{% endblock %}
 
 {% block content %}
 
-<div id="breadcrumbs"><a href="{{ root_url }}">Home</a> / <a href="{{ model.url }}">{{ model.verbose_name_plural|capfirst }}</a> / <a href="../">Fields</a> / By {{ field.field.verbose_name }}</div>
-ssss
-<h1>{{ model.verbose_name_plural|capfirst }} by {{ field.field.verbose_name }}</h1>
+<div class="row">
+        <ul class="breadcrumb">
+            <li><a href="{{ root_url }}">Home</a></li>
+            <li class="divider">/</li>
+            <li><a href="{{ model.url }}">{{ model.verbose_name_plural|capfirst }}</a></li>
+            <li class="divider">/</li>
+            <li><a href="../">Fields</a></li>
+            <li class="divider">/</li>
+            <li>By {{ field.field.verbose_name }}</li>
+        </ul>
+</div>
 
-<ul class="objectlist">
-{% for object in object_list %}
-<li class="{% cycle 'odd' 'even' %}"><a href="{{ object|iriencode }}/">{{ object }}</a></li>
-{% endfor %}
-</ul>
+<div class="row">
+    {% for object in object_list %}
+    <span class="alert-message block-message {% cycle '' 'info' %} span6">
+        
+        <a href="{{ object|iriencode }}/">{{ object }}</a>
+        
+    </span>
+    {% endfor %}
+</div>
 
 {% endblock %}

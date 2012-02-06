@@ -1,6 +1,26 @@
 {% for comment in comment_list %}
-<blockquote>
-    <small>{{ comment.submit_date }} - {{ comment.name }}</small>
-    <p>{{ comment.comment|safe}}</p>
-</blockquote>
+
+<div class="alert-message block-message warning">
+    <p><small>{{ comment.submit_date }} - {{ comment.name }}</small></p>
+    <blockquote>
+        <p>{{ comment.comment|safe}}</p>
+    </blockquote>
+</div>
+
 {% endfor %}
+<style type="text/css">
+.popover-well {
+    min-height: 160px;
+}
+.popover-well .popover-wrapper {
+    float: left;
+    height: 160px;
+    margin-left: 55px;
+    position: relative;
+    width: 50%;
+}
+
+.popover-well .popover {
+    display: block;
+}
+</style>

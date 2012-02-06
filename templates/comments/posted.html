@@ -1,8 +1,11 @@
 {% extends "base_site.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Thanks for commenting" %}.{% endblock %}
+{% block content_tile %}<h1>{% trans "Thanks for commenting" %}.</h1>{% endblock %}
 
 {% block content %}
-  <h1>{% trans "Thank you for your comment" %}.</h1>
+<div class="row">
+    <p>{% trans "Thank you for your comment" %}.</p>
+    <p></p>
+</div>
 {% endblock %}
