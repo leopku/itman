@@ -20,7 +20,7 @@
 <div class="row">
 {% for field in field_list %}
 
-    <span class="alert-message block-message {% cycle '' 'info' %} span6">
+    <span class="alert-message block-message {% cycle '' 'info' %} span2">
     <a href="{{ field.name }}/">{{ model.verbose_name_plural|capfirst }} by {{ field.verbose_name }}</a>
     </span>
 
