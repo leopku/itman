@@ -11,13 +11,13 @@
         {% if field.errors %} class="error"{% endif %}
         {% ifnotequal field.name "comment" %} style="display:none;"{% endifnotequal %}>
         
-        {{ field.label_tag }} {{ field }}
+        {{ field }}
       </p>
     {% endif %}
   {% endfor %}
   <p class="submit">
-    <input type="submit" name="post" class="submit-post" value="{% trans "Post" %}" />
-    <input type="submit" name="preview" class="submit-preview" value="{% trans "Preview" %}" />
+    <input type="submit" name="post" class="btn" value="{% trans "Post" %}" />
+    <input type="submit" name="preview" class="btn" value="{% trans "Preview" %}" />
   </p>
 </form>
 <script type="text/javascript" src="/static/xheditor/jquery/jquery-1.4.2.min.js"></script>

@@ -1,48 +1,59 @@
 {% extends "base_site.html" %}
 {% load comments %}
 
-{% block content_title %}{{ object.model.verbose_name|capfirst }}: {{ object }}{% endblock %}
+{% block title %}{{ object }}{% endblock %}
+
+{% block content_title %}<h1>{{ object.model.verbose_name|capfirst }}: <small>{{ object }}</small></h1>{% endblock %}
 
 {% block content %}
 
-<div id="breadcrumbs"><a href="{{ root_url }}">Home</a> / <a href="{{ object.model.url }}">{{ object.model.verbose_name_plural|capfirst }}</a> / {{ object }}</div>
-
-<h1>{{ object.model.verbose_name|capfirst }}: {{ object }}</h1>
-
-<table class="objectinfo">
-{% for field in object.fields %}
-<tr class="{% cycle 'odd' 'even' %}">
-<th>{{ field.field.verbose_name|capfirst }}</th>
-<td>
-{% if field and field.urls %}
-{% for value, url in field.urls %}
-{% if url %}<a href="{{ url }}">{% endif %}{{ value }}{% if url %}</a>{% endif %}{% if not forloop.last %}, {% endif %}
-{% endfor %}
-{% else %}None{% endif %}
-</td>
-</tr>
-{% endfor %}
-</table>
-<hr>
-<h2>配置历史</h2>
-<div id="comment">
-{% render_comment_list for object.instance %}
-{% render_comment_form for object.instance %}
+<div class="row">
+        <ul class="breadcrumb">
+            <li><a href="{{ root_url }}">Home</a></li>
+            <li class="divider">/</li>
+            <li><a href="{{ object.model.url }}">{{ object.model.verbose_name_plural|capfirst }}</a></li>
+            <li class="divider">/</li>
+            <li>{{ object }}</li>
+        </ul>
 </div>
-<hr>
+
+<div class="row">
+    <table class="zebra-striped">
+        {% for field in object.fields %}
+        <tr>
+            <td>{{ field.field.verbose_name|capfirst }}</td>
+            <td>
+            {% if field and field.urls %}
+            {% for value, url in field.urls %}
+            {% if url %}<a href="{{ url }}">{% endif %}{{ value }}{% if url %}</a>{% endif %}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+            {% else %}None{% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="row">
 {% for related_object in object.related_objects %}
-  <div class="related">
-  <h2>与 {{ related_object.related_field }} 关联的 {{ related_object.model.verbose_name_plural }}:</h2>
-  {% if related_object.object_list %}
-  <ul class="objectlist">
+    <p><strong>与 {{ related_object.related_field }} 关联的 {{ related_object.model.verbose_name_plural }}:</strong></p>
+    <table class="zebra-striped">
+    {% if related_object.object_list %}
     {% for object in related_object.object_list %}
-    <li class="{% cycle 'odd' 'even' %}"><a href="{{ object.url }}">{{ object }}</a></li>
+        {% cycle '<tr><td>' '<td>' %}<a href="{{ object.url }}">{{ object }}</a></li>{% cycle '</td>' '</td></tr>' %}
     {% endfor %}
-  </ul>
-  {% else %}
-  <p class="quiet">(None)</p>
-  {% endif %}
-  </div>
+    {% else %}
+    <tr><td>(None)</td></tr>
+    {% endif %}
+    </table>
 {% endfor %}
+</div>
+
+<div class="row">
+    <p><strong>变更历史</strong></p>
+
+    {% render_comment_list for object.instance %}
+    {% render_comment_form for object.instance %}
+</div>
 
 {% endblock %}

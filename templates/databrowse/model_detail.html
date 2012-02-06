@@ -1,0 +1,30 @@
+{% extends "databrowse/base_site.html" %}
+
+{% block title %}
+    {{ model.verbose_name_plural|capfirst }}
+{% endblock %}
+
+{% block content_title %}<h1>{{ model.verbose_name_plural|capfirst }}</h1>{% endblock %}
+
+{% block content %}
+
+<div class="row">
+        <ul class="breadcrumb">
+            <li><a href="{{ root_url }}">Home</a></li>
+            <li class="divider">/</li>
+            <li>{% if model.objects.count|pluralize %}{{ model.verbose_name_plural }}{% else %}{{ model.verbose_name }}{% endif %} (Total: <span class="label success">{{ model.objects.count }}</span>)</li>
+        </ul>
+</div>
+
+<div class="row">
+    <pre>
+        {{ plugin_html }}
+    </pre>
+    <table class="zebra-striped">
+        {% for object in model.objects %}
+        {% cycle '<tr><td>' '<td>' %}<a href="{{ object.url }}">{{ object }}</a>{% cycle '</td>' '</td></tr>' %}
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

@@ -12,24 +12,41 @@
             <h1>登陆<small>后观看信息</small></h1>
         {% endblock %}
         {% block content %}
-        <div class="clearfix span12 offset1">
 	    {% if form.errors %}
-            <div class="alert-message warning span10 offset2">
-            <a href="#" class="close"> x </a>
+            <div class="row offset3">
+            <div class="alert-message error span6">
+            
 		    <p class="error">Sorry, that's not a valid username or password</p>
             </div>
+			</div>
 	    {% endif %}
+		<div class="row offset3">
+		      <div class="clearfix">
         <form method='post' action="{% url 'django.contrib.auth.views.login' %}">
         {% csrf_token %}
-            <p><label for="username">User name: </label>
-            <input type="text" name="username" value="" id="username"> 提示：公司邮箱@前的部分</p>
-            <p><label for="password">Password: </label>
-            <input type="password" name="password" value="" id="password"> 提示：公司邮箱密码</p>
+            <div class="clearfix">
+				<label for="username">User name: </label>
+				<div class="input">
+					<div class="input-append">
+						<input class="medium" type="text" name="username" value="" id="username" placeholder="用户名" />
+						<span class="add-on">@company.com</span>
+						<span class="help-inline">支持LDAP邮箱验证</span>
+						</div>						
+					</div>
+			</div>
+            <div class="clearfix">
+				<label for="password">Password: </label>
+				<div class="input">
+					<input class="medium" type="password" name="password" value="" id="password" placeholder="密码" />
 
-            <p><input type="submit" value="login" />
-            <input type="hidden" name="next" value="{{ next|escape }}" /></p>
+				</div>
+			</div>
+
+            <input class="btn" type="submit" value="login" />
+            <input type="hidden" name="next" value="{{ next|escape }}" />
         </form>
         </div>
+		</div>
         {% endblock %}
     {% endif %}
 	
