@@ -61,7 +61,7 @@
 {% endblock %}
 {% block content %}
 <div class="row">
-<div class="span6 offset1">
+<div class="span6">
     <table class="zebra-striped"><tr><td>
     <form>
     {% csrf_token %}
@@ -76,7 +76,7 @@
 			</div>
 			{% endfor %}
 			<div class="actions">
-			    <input class="btn" type="submit" value="Add" />
+			    <input class="btn primary" type="submit" value="Add" />
 			</div>			
 		</fieldset>
 	</form>
@@ -97,7 +97,7 @@
 		</div>
 		{% endfor %}
 		<div class="actions">
-		    <input class="btn" type="submit" value="Add" />
+		    <input class="btn primary" type="submit" value="Add" />
 		</div>	
 	</fieldset>
 	</form>

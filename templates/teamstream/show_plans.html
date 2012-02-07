@@ -1,6 +1,4 @@
 <div class="span6 offset1">
-	<a {% ifequal filter "my" %}class="selected"{% endifequal%} href="#" id="id_my_plans" onclick="return load_plans('{% url ajax_show_plans %}?filter=my');">[My]</a>
-	<a {% ifequal filter "all" %}class="selected"{% endifequal%}href="#" id="id_all_plans" onclick="return load_plans('{% url ajax_show_plans %}?filter=all');">[All]</a>
 	<span id="id_loading_plans" style="display: none;">Loading...</span>
 
 
@@ -69,5 +67,7 @@
 <div class="alert-message warning">
 	<p><strong>No plan</strong></p>
 </div>
-</div>
 {% endif %}
+	<a href="#" id="id_my_plans" onclick="return load_plans('{% url ajax_show_plans %}?filter=my');"><span class="label notice">My</span></a>
+	<a href="#" id="id_all_plans" onclick="return load_plans('{% url ajax_show_plans %}?filter=all');"><span class="label notice">All</span></a>
+</div>

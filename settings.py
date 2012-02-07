@@ -146,7 +146,7 @@ INSTALLED_APPS = (
     'django.contrib.databrowse',
     'south',
     'itman.services',
-    #'itman.teamstream',
+    'itman.teamstream',
 )
 
 # A sample logging configuration. The only tangible logging
